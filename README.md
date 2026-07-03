@@ -3,6 +3,7 @@
 ## Table of Contents
 
 * [Course Outline](#course-outline)
+  * [Demos by Difficulty & Learning Order](#demos-by-difficulty--learning-order)
 * [Software Being Used](#tools-that-will-be-used)
 * [Resources](#other-resources)
   * [Books](#books)
@@ -37,6 +38,50 @@ During the course, we'll create a few different projects to both showcase how Py
 * A Library tool for Rigging Controls with a UI ([LINK](controllerLibrary/))
 * A Light Manager ([LINK](lightManager/))
 * A command line file tool to manage image sequences ([LINK](commandLine/))
+
+### Demos by Difficulty & Learning Order
+
+Here is the complete list of demos in this repo, organized into the order a beginner should tackle them — from absolute basics to the most advanced tool. This mirrors the natural progression of the course.
+
+| # | Demo | Difficulty | Concepts you learn |
+|---|------|-----------|--------------------|
+| 1 | `introduction/helloWorld` | ★☆☆☆☆ | `print`, comments, strings — the "is Python even working?" test |
+| 2 | `introduction/helloCube` | ★☆☆☆☆ | `from maya import cmds`, creating nodes, variables, lists, indexing, `setAttr`/`parent` |
+| 3 | `commandLine/renamer` | ★★☆☆☆ | `argparse`, file I/O (`os`, `shutil`), `def main()`, the `if __name__ == '__main__'` pattern |
+| 4 | `objectRenamer/renamer1` | ★★☆☆☆ | `cmds.ls`/`listRelatives`/`objectType`, `for` loops, `if/elif/else`, string split & concat |
+| 5 | `objectRenamer/renamer2` | ★★★☆☆ | Functions with defaults, dictionaries + `.get()`, docstrings, `raise` exceptions |
+| 6 | `gearCreator/gears1` | ★★★☆☆ | Multi-arg functions, returning tuples, poly-modeling cmds, `%` string formatting, `*args` unpacking |
+| 7 | `gearCreator/gears2` | ★★★☆☆ | **Classes**: `class`, `__init__`, `self`, methods, storing state on the instance |
+| 8 | `tweener/tweener` | ★★★★☆ | Animation API (`keyframe`, `setKeyframe`, `currentTime`), list comprehensions, **first Maya UI** (`cmds.window`, sliders, buttons) |
+| 9 | `tweener/reusableUI` | ★★★★☆ | Class **inheritance** (`BaseWindow` → child windows), reusable UI scaffolding, `*args` callbacks |
+| 10 | `controllerLibrary/controllerLibrary` | ★★★★★ | **PySide/Qt UI**, `json` save/load, screenshot via `playblast`, `QListWidget`, icon galleries |
+| 11 | `lightManager/lightManager` | ★★★★★ | The capstone: **PyMel**, custom Qt `Signal`s, `OpenMayaUI` + `wrapInstance`, dockable UI, presets |
+
+> **Demos 10 & 11 are both "5-star" but 11 builds on 10.** Do `controllerLibrary` first, then `lightManager`.
+
+#### Suggested learning path
+
+**Phase 1 — Python fundamentals inside Maya** (demos 1–2)
+You're just learning to talk to Maya: print, variables, lists, and creating a cube. If `helloCube` runs, your setup works.
+
+**Phase 2 — Real scripts & functions** (demos 3–5)
+Now you write reusable code: command-line tools, looping over selections, packaging logic into functions with docstrings and error handling. By the end of `renamer2` you can write a clean, importable utility.
+
+**Phase 3 — Object-oriented programming** (demos 6–7)
+`gears1` shows the functional approach; `gears2` rewrites it as a class. This is the key conceptual leap — understanding `self` and storing state on an object.
+
+**Phase 4 — Animation & Maya's built-in UI** (demos 8–9)
+You learn the animation API and build your first windows with `cmds`. `reusableUI` then teaches inheritance by reusing one base window for two different tools (tweener + gear creator).
+
+**Phase 5 — Qt/PySide professional UIs** (demos 10–11)
+The two big tools. `controllerLibrary` is the gentler intro to Qt; `lightManager` is the most complex sample in the repo and pulls together everything: PyMel, signals, docking, and the Maya API.
+
+#### A few notes
+
+* **`lightManager/lightManager2016Below`** is not a separate demo — it's the *same* tool using the legacy `dockControl` API for Maya 2016 and earlier. Skip it unless you specifically need old-Maya support; use `lightManager` instead.
+* **Each demo has a `_2027.py` companion** (e.g. `helloCube_2027.py`, `lightManager_2027.py`) that runs in **Maya 2027** (Python 3 + PySide6). Learn from the original commented files; run the `_2027` versions. The 6 demos that were already Python 3-compatible (gears, tweener, command-line renamer, renamer2) have verified copies with a header note.
+* **The 7 empty `__init__.py` files** just mark the folders as Python packages — they contain no demos.
+* Don't skip from demo 5 to demo 10 — the Qt demos assume you already understand functions, classes, and inheritance from the earlier ones.
 
 ## Tools That Will Be Used
 
