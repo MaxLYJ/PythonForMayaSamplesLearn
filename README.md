@@ -1,5 +1,5 @@
 # Python For Maya: Artist Friendly Programming
-
+test
 ## Table of Contents
 
 * [Course Outline](#course-outline)
