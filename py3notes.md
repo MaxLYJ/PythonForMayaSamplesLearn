@@ -1,6 +1,6 @@
 # Changes to the course if using Python 3 and Maya 2022 and later
 
-## Table of Contents
+## Table of Contentsaaa
 
 * [Editor](#editor)
 * [Syntax Changes](#python-3-syntax-changes)
