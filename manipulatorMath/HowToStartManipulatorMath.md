@@ -251,69 +251,69 @@ print(mm.maxOfAbsThree(-2, 5, -9))   # -9
 ## Question and Answer
 
 **Q1. Why is there no "How to build the scene" — doesn't every demo need Maya objects?**
-A. This is the curriculum's first **pure-math** demo. It never calls `maya.cmds`,
+This is the curriculum's first **pure-math** demo. It never calls `maya.cmds`,
 creates no nodes, reads no selection. Its only Maya dependency is the
 `maya.OpenMaya` types (`MPoint`/`MVector`) — which is why you still need Maya's
 interpreter but need no scene. The "scene" is whatever `MPoint`/`MVector`
 arguments you pass in.
 
 **Q2. `testModule()` exists — so isn't this runnable, not "definitions-only"?**
-A. Right — it is a **hybrid**: a definitions module *plus* a self-test behind
+Right — it is a **hybrid**: a definitions module *plus* a self-test behind
 `__main__`. That makes the minimum run one line (`testModule()`). But note the
 self-test covers only `degreeRadianConverter` and `lineMath`; `planeMath` and
 `maxOfAbsThree` have zero coverage, so "it passes the self-test" is not proof
 they work.
 
 **Q3. My downward ray at the ground plane reports no hit — why?**
-A. The `intersect` parallel test is `if denominator < .00001:`. A downward ray
+The `intersect` parallel test is `if denominator < .00001:`. A downward ray
 has `denominator = normal·direction = -1.0`, and `-1.0 < .00001` is true, so the
 code wrongly returns `(False, …)`. The check only catches **positive** near-zero.
 Use `abs(denominator) < .00001`. (A genuinely parallel ray — direction lying *in*
 the plane — has `denominator ≈ 0` from either side.)
 
 **Q4. `maxOfAbsThree(-10, 10, 4)` returns `4`. That can't be right?**
-A. It's a tie bug. The guards are strict: `aa > ab and aa > ac` and
+It's a tie bug. The guards are strict: `aa > ab and aa > ac` and
 `ab > aa and ab > ac`. When `|-10| == |10|`, neither strict `>` holds, so both
 guards fail and the function falls through to `return c`. Any equal-abs tie is
 resolved to the third argument regardless of which tied. The docstring example
 `(-10, 3, 4) → -10` has no tie, so it works.
 
 **Q5. `MVector * MVector` returns a number, but `MVector * 2` returns a vector — why?**
-A. Same operator, two meanings in API 1.0: `MVector * MVector` is the **dot
+Same operator, two meanings in API 1.0: `MVector * MVector` is the **dot
 product** (a scalar `float`); `MVector * scalar` (or `scalar * MVector`) is
 **scaling** (an `MVector`). `lineMath.closestPoint` uses both in two adjacent
 lines: `t = self.direction * (toPoint - self.point)` is a dot product, then
 `self.direction * t` is a scale. Always check the right-hand type.
 
 **Q6. The `planeMath.__init__` sets `a=b=c=d=0`, so the plane starts at the origin, right?**
-A. No — that's dead code. It writes **local** variables `a, b, c, d`, not
+No — that's dead code. It writes **local** variables `a, b, c, d`, not
 `self.a` etc. Until you call `setPlane`, the instance attributes are the class
 defaults (`None`), inherited from the class body. The constructor does nothing
 observable.
 
 **Q7. Why `from builtins import object` and `from __future__ import division`?**
-A. Python-2 leftovers from when this was written. On Python 2, `class planeMath:`
+Python-2 leftovers from when this was written. On Python 2, `class planeMath:`
 made an *old-style* class, so the file imports the new-style `object` base
 explicitly, and `from __future__ import division` made `/` true-divide. On
 Maya 2027's Python 3 both are no-ops — every class is new-style and `/` is
 already true division. Safe to delete in new code.
 
 **Q8. The README says `closestPoint` prints `1 1 0`, but I get `1 2 0`. Who's right?**
-A. The code is right: `(1, 2, 0)`. The README's first two output lines (the
+The code is right: `(1, 2, 0)`. The README's first two output lines (the
 degree/radian conversions) are correct, but its third line is a mis-print.
 Verified by hand and by a pure-Python reimplementation of the projection. This
 is a good reminder: for a math module, **re-derive the printed numbers** rather
 than trust the doc's "expected output".
 
 **Q9. API 1.0 vs API 2.0 — does it matter here?**
-A. For this file, only the import path and minor constructor details differ.
+For this file, only the import path and minor constructor details differ.
 The file uses `import maya.OpenMaya` (API 1.0). An API 2.0 port would be
 `import maya.api.OpenMaya as om`; the `MPoint`/`MVector` arithmetic is the same.
 API 2.0 is newer, more Pythonic, and preferred for new tools — see Advanced
 Directions.
 
 **Q10. Where would I actually *use* `planeMath.intersect` in a real tool?**
-A. Any "drop on grid / move on plane" placement tool. On a viewport drag, Maya
+Any "drop on grid / move on plane" placement tool. On a viewport drag, Maya
 hands you a screen **ray** (source point + direction). Build a `planeMath` for
 the ground (or the active view's plane), call `intersect`, and snap the selected
 object to the returned hit point. That is the core of every painting/placement/

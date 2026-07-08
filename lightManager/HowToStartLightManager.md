@@ -276,27 +276,27 @@ parent your own Qt windows to Maya.
 ## Question and Answer
 
 **Q1. The README says `ui = lm.showUI()`, but I get `AttributeError: module has no attribute 'showUI'`.**
-A. The README is aspirational here. There is **no `showUI()` function** in the
+The README is aspirational here. There is **no `showUI()` function** in the
 file. Launch directly: `ui = lm.LightingManager(dock=True)`. (`controllerLibrary`
 had a `showUI()`; this demo doesn't — a deliberate difference, and a good reason
 to trust the source over the README.)
 
 **Q2. I made an ambient light from Maya's Create menu, but it never shows up in the manager. Why?**
-A. `lightTypes` lists only point / spot / area / directional / volume, and
+`lightTypes` lists only point / spot / area / directional / volume, and
 `populate()` calls `pm.ls(type=[...])` with that same five. `ambientLight` is
 simply not in either list, so it is invisible to the tool. To support it you'd
 add `"Ambient Light": pm.ambientLight` to `lightTypes` and `"ambientLight"` to
 the `populate()` type list.
 
 **Q3. The intensity slider won't let me drag to 0 — how do I turn a light fully off?**
-A. `intensity.setMinimum(1)`, so the slider bottoms out at 1, not 0. (It's also
+`intensity.setMinimum(1)`, so the slider bottoms out at 1, not 0. (It's also
 an integer `QSlider`, so fractional intensities round.) To actually disable a
 light, **uncheck the name checkbox** — that sets `visibility` to 0. If you want
 intensity-0 control, change `setMinimum(0)` (and consider a `QDoubleSpinBox` for
 fractional values).
 
 **Q4. I clicked Import on a preset and now every light appears twice.**
-A. Verified-from-source bug: `importLights` ends with `self.populate()`, but
+Verified-from-source bug: `importLights` ends with `self.populate()`, but
 `populate()` only **adds** rows — it never clears. The original lights already
 had rows from `__init__`, so re-listing the whole scene produces duplicates. It
 should call `self.refresh()` (which clears first). Workaround: click **Refresh**
@@ -304,7 +304,7 @@ isn't enough either (it would also duplicate); close and relaunch the manager,
 or fix the call site to `self.refresh()`.
 
 **Q5. What exactly does the Solo button do?**
-A. Solo is `setCheckable(True)`. Toggling it emits the custom `onSolo` signal;
+Solo is `setCheckable(True)`. Toggling it emits the custom `onSolo` signal;
 the manager wired `widget.onSolo → self.isolate`. `isolate` walks every
 `LightWidget` and, for any widget that is **not** `self.sender()` (the soloed
 one), calls `disableLight(val)`. `disableLight` unchecks the visibility box,
@@ -313,25 +313,25 @@ is `Solo → onSolo → isolate → disableLight → checkbox → visibility`. S
 light hides all the others; un-soloing restores them.
 
 **Q6. The legacy `lightManager2016Below_2027.py` Import crashes with `AttributeError: 'NoneType'`. Why?**
-A. That file's `createLight` is missing the `return light` line (confirmed by
+That file's `createLight` is missing the `return light` line (confirmed by
 diff against the main file). So `light = self.createLight(...)` is `None`, and
 the next line `light.intensity.set(...)` blows up. It's a teaching-comparison
 file; use `lightManager_2027.py` for real work, or add the missing `return light`.
 
 **Q7. I saved my rig twice in the same day and the first preset is gone.**
-A. `saveLights` names the file `lightFile_%s.json % time.strftime('%m%d')` —
+`saveLights` names the file `lightFile_%s.json % time.strftime('%m%d')` —
 month+day only, no time. Same-day saves **overwrite** the same file. If you need
 versioning, add `%H%M` (or a user-supplied name) to the filename.
 
 **Q8. `saveLights` didn't remember which lights I had Solo'd (visibility off).**
-A. Correct — `saveLights` records only `translate, rotation, lightType,
+Correct — `saveLights` records only `translate, rotation, lightType,
 intensity, color`. It does **not** save `visibility` (nor `scale`). Re-importing
 always brings lights back visible at intensity-1-ish defaults. Add
 `'visibility': light.visibility.get()` to the record and restore it in
 `importLights` if you need solo state persisted.
 
 **Q9. Why are Area and Volume lights defined with `partial(...)` while Point/Spot/Directional are plain functions?**
-A. PyMel exposes direct constructors `pm.pointLight`, `pm.spotLight`,
+PyMel exposes direct constructors `pm.pointLight`, `pm.spotLight`,
 `pm.directionalLight` — call them with no args. But area and volume lights are
 created via the generic `pm.shadingNode('areaLight', asLight=True)`. Rather than
 write two throwaway `def createAreaLight(self)` methods, the demo freezes those
@@ -341,7 +341,7 @@ zero-arg callables. `partial` captures arg values **at definition time**; a
 doesn't matter, which is why the comment calls them "identical in most cases."
 
 **Q10. How does a pure-Qt widget actually dock into Maya?**
-A. `getDock()` is the recipe: (1) `pm.workspaceControl(name, dockToMainWindow=('right',1))`
+`getDock()` is the recipe: (1) `pm.workspaceControl(name, dockToMainWindow=('right',1))`
 creates a Maya-owned dockable panel and returns its **name**; (2)
 `omui.MQtUtil_findControl(ctrl)` fetches the underlying Qt pointer for that
 name; (3) `wrapInstance(int(qtCtrl), QWidget)` wraps the raw C++ pointer as a
@@ -349,7 +349,7 @@ Python `QWidget` you can parent to. The widget then "lives" inside Maya's dock.
 Memorize this three-step bridge if you build any dockable Qt tool.
 
 **Q11. Why PyMel here when every earlier demo used `cmds`?**
-A. Ergonomics. `light.intensity.set(2.0)` and `light.getTransform()` read better
+Ergonomics. `light.intensity.set(2.0)` and `light.getTransform()` read better
 than `cmds.setAttr(name+'.intensity', 2.0)` plus a separate `cmds.listRelatives`
 call, especially inside a UI class that touches the same node many times. The
 tradeoff (noted in the file's own comments) is speed and some edge-case quirks;

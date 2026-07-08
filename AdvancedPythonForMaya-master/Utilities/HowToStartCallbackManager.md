@@ -323,7 +323,7 @@ import callbackManager_2027 as cm; cm.runTests()
 
 **Q1. In `cameraMessageCmd` I registered callbacks directly with Maya. Why build
 a whole manager class here?**
-A. Direct registration couples every tool to Maya's callback dispatch and to
+Direct registration couples every tool to Maya's callback dispatch and to
 each other: one tool's callback that raises can stall the signal for everyone,
 and every tool has to remember its own `MCallbackId` and clean it up. The manager
 adds three things: (1) a **single shared handler per signal** that multiplexes
@@ -334,7 +334,7 @@ themselves up instead of leaking.
 
 **Q2. `registerAfterNew` and `deregisterAfterNew` aren't in the source text. How
 do they exist?**
-A. They are generated dynamically in `__init__` (lines 40–65). The loop walks
+They are generated dynamically in `__init__` (lines 40–65). The loop walks
 `dir(om.MSceneMessage)`, keeps every `k`-prefixed `int` enum, strips the `k`
 (`kAfterNew` → `AfterNew`), and `setattr`s a `partial(self.__register,
 signal=…)` / `partial(self.__deregister, signal=…)` pair onto the instance. The
@@ -343,7 +343,7 @@ including ones added in future versions — with zero code changes.
 
 **Q3. Why are methods stored in a `WeakKeyDictionary` but functions in a plain
 `weakref.ref`?**
-A. Two different weak-reference shapes for two different object lifetimes. A
+Two different weak-reference shapes for two different object lifetimes. A
 bound method object (`instance.method`) is created fresh each time you access it
 and can't be weak-ref'd directly, so the manager stores the **owning instance**
 as the weak dict *key* (mapping to the underlying function). When the instance is
@@ -354,7 +354,7 @@ the handler skips it.
 
 **Q4. What happens if I register a lambda inline, like
 `mgr.registerAfterNew(lambda: print("hi"))`?**
-A. **It silently never fires.** The lambda is passed in, stored as
+**It silently never fires.** The lambda is passed in, stored as
 `weakref.ref(callback)`, and returned from `register` — but the lambda has no
 other strong reference anywhere, so Python garbage-collects it immediately. The
 next time the handler runs, `callback()` dereferences to `None` and the callback
@@ -365,14 +365,14 @@ exercise. **Store your callback in a variable first** (`cb = lambda: …;
 register(cb)`) if you need it to survive.
 
 **Q5. Why does one raising callback not break the others?**
-A. `__handler` wraps every individual callback call in `try/except` (lines
+`__handler` wraps every individual callback call in `try/except` (lines
 170–174 for methods, 185–188 for functions). When a callback raises, the
 exception is caught, reported with `logger.exception(...)`, and the loop moves
 on to the next callback. So a faulty tool degrades gracefully instead of
 poisoning the signal. This isolation is the manager's headline feature.
 
 **Q6. The `except:` in `__handler` is bare. Is that safe?**
-A. It is intentional but slightly risky. A bare `except:` catches *everything*,
+It is intentional but slightly risky. A bare `except:` catches *everything*,
 including `SystemExit` and `KeyboardInterrupt` (which inherit from `BaseException`,
 not `Exception`). That means a callback that calls `sys.exit()` or is interrupted
 with Ctrl-C would be silently swallowed rather than propagated. The robust form
@@ -380,7 +380,7 @@ is `except Exception:`, which still isolates normal errors while letting
 control-flow exceptions through. Worth flagging if you harden this for production.
 
 **Q7. Why `SceneCallbackManager.instance()` instead of just constructing one?**
-A. The singleton (`_instance`, lines 24–30) guarantees one shared manager. If
+The singleton (`_instance`, lines 24–30) guarantees one shared manager. If
 two managers existed, each would register its *own* shared handler for the same
 signal with Maya, doubling the work and splitting the callback lists — and
 deregistering on one wouldn't affect the other. The singleton also means the
@@ -389,7 +389,7 @@ the whole session. (The singleton only holds if everyone goes through
 `instance()`; calling `SceneCallbackManager()` directly bypasses it.)
 
 **Q8. `runTests()` threw away my scene! Why?**
-A. `kAfterNew` fires when a new file is created, so the test has to actually
+`kAfterNew` fires when a new file is created, so the test has to actually
 create one — twice (`cmds.file(new=True, force=True)`, lines 212 and 216) — to
 prove the callbacks fire when registered and are silent when deregistered.
 `force=True` means it discards the current scene without prompting. Always run
@@ -398,7 +398,7 @@ important practical gotcha.
 
 **Q9. I reloaded the module with `importlib.reload(cm)` and now my callbacks fire
 twice / can't be removed. Why?**
-A. The **ghost-callback-on-reload trap** from `cameraMessageCmd` applies here
+The **ghost-callback-on-reload trap** from `cameraMessageCmd` applies here
 too. `reload` re-runs the module: the `SceneCallbackManager` *class* is
 redefined, `cm.SceneCallbackManager.instance()` now returns a *new* instance with
 empty `__callbacks`/`__callbackIDs`, and `_instance` is reset — but **Maya still
@@ -409,7 +409,7 @@ IDs, you cannot `removeCallback` them. **Always deregister everything (or quit
 the session) before reloading** a callback module.
 
 **Q10. If I register the same callback twice, does it fire twice?**
-A. **No — for both functions and methods it is stored once.** Verified outside
+**No — for both functions and methods it is stored once.** Verified outside
 Maya: two `weakref.ref(func)` to the same function compare equal, and two
 `WeakKeyDictionary`s with identical `{instance: func}` contents also compare
 equal. So the `if … not in callbackList` guard (lines 108, 116) correctly
@@ -417,7 +417,7 @@ prevents duplicates. (The dedup is *content-based*, not identity-based — which
 why it works despite each registration building a fresh container object.)
 
 **Q11. The source says lambdas and `functools.partial` aren't supported. Why?**
-A. Lambdas go through the function branch but, as in Q4, an *inline* lambda has
+Lambdas go through the function branch but, as in Q4, an *inline* lambda has
 no surviving strong reference and is GC'd before it can fire. `functools.partial`
 objects historically lacked a `__weakref__` slot, so `weakref.ref(partial(...))`
 could raise `TypeError` — though this is **Python-version-dependent** (it
