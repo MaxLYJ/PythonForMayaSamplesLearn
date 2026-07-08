@@ -122,7 +122,7 @@ if os.path.exists(d):
     shutil.rmtree(d)   # wipes saved controllers — only do this to reset
 ```
 
-### Scene-state expectations per entry point
+### Scene state each entry point expects
 
 | You want to…        | Required scene state                                                                                  |
 |---------------------|-------------------------------------------------------------------------------------------------------|

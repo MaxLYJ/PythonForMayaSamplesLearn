@@ -120,7 +120,7 @@ cmds.select('tweenCube')
 
 Now `tween(percentage=50)` will insert keys on **all three** channels at once at frame 15.
 
-### Scene state the code expects
+### Scene state each entry point expects
 
 | Entry point | Selection required? | Scene state it expects |
 |-------------|---------------------|------------------------|
