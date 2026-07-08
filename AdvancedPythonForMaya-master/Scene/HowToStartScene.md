@@ -185,27 +185,49 @@ cmds.setAttr(loc + '.shape', 1)             # triangle
 
 ## Question and Answer
 
-1. **Why is `characterRoot` API 1.0 when the rest of the Advanced section moved to API 2.0?** Because `MPxTransform` has **no Python binding in API 2.0** — you literally cannot subclass it there. So a custom transform is forced back to API 1.0 (`from maya import OpenMaya`/`OpenMayaMPx`, `ompx.asMPxPtr(cls())`, no `maya_useNewAPI()`). `customLocator` can use API 2.0 because `MPxLocatorNode` *is* bound there. The top comment *"At long last we can go back to using the API v2.0"* celebrates exactly this — only the transform file is stuck on 1.0.
+**Q1. Why is `characterRoot` API 1.0 when the rest of the Advanced section moved to API 2.0?**
 
-2. **What is `registerTransform`'s extra `matrix`/`matrixID` pair, and can I drop it?** A custom transform can plug in a **custom transformation matrix** (e.g. a transform that constrains rotation, or rotates around a custom pivot). `characterRoot` doesn't need one, so it reuses the base `ompx.MPxTransformationMatrix` — but `registerTransform` **still requires** a matrix class and its own `MTypeId` (`0x01014`). You cannot drop them; if you don't need a custom matrix, pass the base class and a fresh dev-range ID, exactly as shown. (A plain `MPxNode` avoids this entirely with 4-arg `registerNode`.)
+Because `MPxTransform` has **no Python binding in API 2.0** — you literally cannot subclass it there. So a custom transform is forced back to API 1.0 (`from maya import OpenMaya`/`OpenMayaMPx`, `ompx.asMPxPtr(cls())`, no `maya_useNewAPI()`). `customLocator` can use API 2.0 because `MPxLocatorNode` *is* bound there. The top comment *"At long last we can go back to using the API v2.0"* celebrates exactly this — only the transform file is stuck on 1.0.
 
-3. **Why does loading the ORIGINAL `.py` crash with `TypeError: NoneType is not iterable`?** The original `initializePlugin` does `MAYA_SCRIPT_PATH = os.getenv('MAYA_SCRIPT_PATH')` then `if dirName not in MAYA_SCRIPT_PATH:`. When the env var is **unset**, `os.getenv` returns `None`, and `'…' not in None` raises that `TypeError` **while the plugin loads**. The `_2027` fix is `os.getenv('MAYA_SCRIPT_PATH', '')` — the empty-string default turns `None` into `''` so the `in` check is always safe. (Confirmed by reproduction.) It usually doesn't bite in an interactive GUI session because Maya pre-sets `MAYA_SCRIPT_PATH`, but it is a latent landmine.
+**Q2. What is `registerTransform`'s extra `matrix`/`matrixID` pair, and can I drop it?**
 
-4. **Why is the square missing its top edge / the triangle missing a side?** Verified source bug: the line loop runs `range(pointCount - 1)`, drawing `pointCount - 1` segments — an **open** chain that never closes back to vertex 0. A closed polygon needs `pointCount` segments with a wrap-around index `(i+1) % pointCount`. The **fill** still looks correct in shaded mode because the triangle *fan* covers the whole convex shape; the open outline only shows in wireframe, which is why the bug is easy to overlook.
+A custom transform can plug in a **custom transformation matrix** (e.g. a transform that constrains rotation, or rotates around a custom pivot). `characterRoot` doesn't need one, so it reuses the base `ompx.MPxTransformationMatrix` — but `registerTransform` **still requires** a matrix class and its own `MTypeId` (`0x01014`). You cannot drop them; if you don't need a custom matrix, pass the base class and a fresh dev-range ID, exactly as shown. (A plain `MPxNode` avoids this entirely with 4-arg `registerNode`.)
 
-5. **Why does the first triangle do nothing?** The fan is `tri(point[0], point[i], point[i+1])` with `i` starting at `0`, so iteration 0 is `tri(0, 0, 1)` — two identical vertices → a **degenerate** zero-area triangle that renders nothing. It's harmless (just wasted work). A clean fan starts at `i = 1`.
+**Q3. Why does loading the ORIGINAL `.py` crash with `TypeError: NoneType is not iterable`?**
 
-6. **What does `state & kDormant` actually test, and why does the comment mislead?** `displayStatus` returns a **bitmask**, not a single enum. `&` is bitwise AND — it returns nonzero if `state` and `kDormant` **share any set bit** (intersection), **not** if they are "equal." The inline comment ("checks if the two bit values are equal") is **wrong**. The reason you *must* use `&` rather than `==` is that a status can be a combination (e.g. `kActive | kLead`); `== kDormant` would wrongly reject those combined states.
+The original `initializePlugin` does `MAYA_SCRIPT_PATH = os.getenv('MAYA_SCRIPT_PATH')` then `if dirName not in MAYA_SCRIPT_PATH:`. When the env var is **unset**, `os.getenv` returns `None`, and `'…' not in None` raises that `TypeError` **while the plugin loads**. The `_2027` fix is `os.getenv('MAYA_SCRIPT_PATH', '')` — the empty-string default turns `None` into `''` so the `in` check is always safe. (Confirmed by reproduction.) It usually doesn't bite in an interactive GUI session because Maya pre-sets `MAYA_SCRIPT_PATH`, but it is a latent landmine.
 
-7. **Why is data fetched in `prepareForDraw` instead of `addUIDrawables`?** `prepareForDraw` runs on Maya's update thread when the node is dirty; `addUIDrawables` runs inside the render loop. Reading plugs / building point arrays inside the render callback can **stall or crash** Maya (the source comment says so explicitly). The split also enables caching: `LocatorData` survives across draws (`MUserData(False)` ⇒ don't delete), so `prepareForDraw` rebuilds geometry only when the `shape` enum actually changes.
+**Q4. Why is the square missing its top edge / the triangle missing a side?**
 
-8. **What is `drawDbClassification` / `drawRegistrantId` and why are both needed?** `drawDbClassification = "drawdb/geometry/customLocator"` is the **string key** Viewport 2 uses to find a draw override for a node type — it's passed to `registerNode` as the `classification` arg AND to `registerDrawOverrideCreator` as the first arg, so the two registrations **must match exactly**. `drawRegistrantId` ("customLocatorPlugin") names *who* registered the override; it must match between `registerDrawOverrideCreator` and `deregisterDrawOverrideCreator` or you leak the override on unload. A node with a `drawDbClassification` but no registered override draws nothing.
+Verified source bug: the line loop runs `range(pointCount - 1)`, drawing `pointCount - 1` segments — an **open** chain that never closes back to vertex 0. A closed polygon needs `pointCount` segments with a wrap-around index `(i+1) % pointCount`. The **fill** still looks correct in shaded mode because the triangle *fan* covers the whole convex shape; the open outline only shows in wireframe, which is why the bug is easy to overlook.
 
-9. **Why `asMPxPtr` in `characterRoot.creator()` but plain `return cls()` in `customLocator.creator()`?** It's the API-1.0-vs-2.0 ownership split from `Nodes/`. API 1.0 hands Maya a raw C++ pointer via `ompx.asMPxPtr(cls())`, transferring ownership *away* from Python. API 2.0 manages lifetime itself, so `customLocator.creator()` simply `return cls()`. This is the same contrast as `minMaxNode` (2.0) vs `pushDeformer` (1.0).
+**Q5. Why does the first triangle do nothing?**
 
-10. **What happens if I reload the plugin without deleting the node instances first?** The node *type* is still in use, so `unloadPlugin` refuses with a "node type is registered/in use" error. The fix (used in the load snippets) is `cmds.delete(cmds.ls(type=…))` then `unloadPlugin(name, force=True)` — `force` because the type may linger registered even after the instances are gone. This is the same `force=True` reload discipline as the undoable commands in `Commands/`.
+The fan is `tri(point[0], point[i], point[i+1])` with `i` starting at `0`, so iteration 0 is `tri(0, 0, 1)` — two identical vertices → a **degenerate** zero-area triangle that renders nothing. It's harmless (just wasted work). A clean fan starts at `i = 1`.
 
-11. **How do I add a third shape (e.g. a circle/star)?** Two places, both in `customLocator_2027.py`. (a) Add an entry to the module-level `shapes` dict — the `shape` enum is rebuilt from `sorted(shapes.keys())` in `initialize` (and re-sorted in `initializePlugin`'s `global shapeNames`), so the new shape appears automatically as the next enum index. (b) Mind the **draw bugs**: a circle needs many points and will reveal the open-outline bug badly, so fix the closing edge first. Adding attributes/templates for the new shape needs no AE-template change (the `shape` enum control already covers it).
+**Q6. What does `state & kDormant` actually test, and why does the comment mislead?**
+
+`displayStatus` returns a **bitmask**, not a single enum. `&` is bitwise AND — it returns nonzero if `state` and `kDormant` **share any set bit** (intersection), **not** if they are "equal." The inline comment ("checks if the two bit values are equal") is **wrong**. The reason you *must* use `&` rather than `==` is that a status can be a combination (e.g. `kActive | kLead`); `== kDormant` would wrongly reject those combined states.
+
+**Q7. Why is data fetched in `prepareForDraw` instead of `addUIDrawables`?**
+
+`prepareForDraw` runs on Maya's update thread when the node is dirty; `addUIDrawables` runs inside the render loop. Reading plugs / building point arrays inside the render callback can **stall or crash** Maya (the source comment says so explicitly). The split also enables caching: `LocatorData` survives across draws (`MUserData(False)` ⇒ don't delete), so `prepareForDraw` rebuilds geometry only when the `shape` enum actually changes.
+
+**Q8. What is `drawDbClassification` / `drawRegistrantId` and why are both needed?**
+
+`drawDbClassification = "drawdb/geometry/customLocator"` is the **string key** Viewport 2 uses to find a draw override for a node type — it's passed to `registerNode` as the `classification` arg AND to `registerDrawOverrideCreator` as the first arg, so the two registrations **must match exactly**. `drawRegistrantId` ("customLocatorPlugin") names *who* registered the override; it must match between `registerDrawOverrideCreator` and `deregisterDrawOverrideCreator` or you leak the override on unload. A node with a `drawDbClassification` but no registered override draws nothing.
+
+**Q9. Why `asMPxPtr` in `characterRoot.creator()` but plain `return cls()` in `customLocator.creator()`?**
+
+It's the API-1.0-vs-2.0 ownership split from `Nodes/`. API 1.0 hands Maya a raw C++ pointer via `ompx.asMPxPtr(cls())`, transferring ownership *away* from Python. API 2.0 manages lifetime itself, so `customLocator.creator()` simply `return cls()`. This is the same contrast as `minMaxNode` (2.0) vs `pushDeformer` (1.0).
+
+**Q10. What happens if I reload the plugin without deleting the node instances first?**
+
+The node *type* is still in use, so `unloadPlugin` refuses with a "node type is registered/in use" error. The fix (used in the load snippets) is `cmds.delete(cmds.ls(type=…))` then `unloadPlugin(name, force=True)` — `force` because the type may linger registered even after the instances are gone. This is the same `force=True` reload discipline as the undoable commands in `Commands/`.
+
+**Q11. How do I add a third shape (e.g. a circle/star)?**
+
+Two places, both in `customLocator_2027.py`. (a) Add an entry to the module-level `shapes` dict — the `shape` enum is rebuilt from `sorted(shapes.keys())` in `initialize` (and re-sorted in `initializePlugin`'s `global shapeNames`), so the new shape appears automatically as the next enum index. (b) Mind the **draw bugs**: a circle needs many points and will reveal the open-outline bug badly, so fix the closing edge first. Adding attributes/templates for the new shape needs no AE-template change (the `shape` enum control already covers it).
 
 ## Advanced Directions
 
