@@ -370,3 +370,16 @@ the demo — each lists the new functions/classes it would require.
    `cmds.ls(long=True, dag=True)` and collects violations, and a `batch_fix(violations, dry_run=...)`
    that applies the fixes through the hardened `safe_rename()`. This is the bridge from "rename tool"
    to "rig-QA tool."
+
+6. **Make the type detector robust and pluggable (fix the shape-peek heuristic).** `renamer2`'s type
+   detection is a one-line guess: it peeks at the single child's `objectType` only when a transform has
+   **exactly one** child (`if len(children) == 1`), else falls back to the transform's own type — so a
+   joint reports `'joint'` but a locator (no shape) reports `'transform'`, both landing in the generic
+   `DEFAULT = 'grp'` branch, and a transform holding two shapes or an instanced shape confuses the peek
+   entirely. Replace it with a `resolve_type(obj)` backed by a priority-ordered `TYPE_RULES` list of
+   `(predicate, suffix)` pairs, so you can register `is_locator`, `is_curve`, `is_ik_handle`, and more
+   without touching the rename loop. New code: a `TypeResolver` class (`register(predicate, suffix)`,
+   `resolve(obj) -> str | None`), small predicate helpers (`has_shape_of('nurbsCurve')`,
+   `is_shapeless_transform()`), and swapping the `objectType`/`children` block for one
+   `objType = resolver.resolve(obj)` call. This turns the demo's most fragile heuristic (Q3, Q10) into
+   its most extensible part.
