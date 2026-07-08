@@ -354,3 +354,21 @@ functions/classes it would need.
    wraps `action(path)` in `try/except` + `cmds.undoInfo` chunk, and reports
    failures via `cmds.warning`. Every tool above then calls this one helper, so
    the cancel/normalise/undo/error handling lives in exactly one place.
+
+---
+
+## Source
+
+- **Source code:** `script.py` is the verbatim official Autodesk Maya Python API
+  1.0 example `python/api1/script.py` (a single `print` line), Maya 2027 (ENU)
+  API reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/file_dialog_2script_8py-example.html>.
+  The actual lesson — the `cmds.fileDialog2` pick→get-path→act wrapper — is not
+  stored as a `.py` at all; it lives only in `fileDialog/README.md`, so this guide
+  re-types it in the Script Editor (see *How to Run the Functions*).
+- **Verification:** `fileDialog2`'s Cancel return value (`[]`, not `None`) and its
+  "not queryable, not editable" semantics were confirmed against the Autodesk
+  command reference and the underlying Qt `QFileDialog` behavior, and the
+  `if path:` / `or []` truthiness logic was checked in pure Python. Opening the
+  native dialog and acting on the returned path require a running Maya and are
+  marked as such.

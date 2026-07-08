@@ -385,6 +385,12 @@ Each idea lists the concrete functions/classes it would add.
 
 ## Source
 
-Autodesk, *Maya Python API 1.0 Reference — `python/api1/mathTableControl.py`*,
-Maya 2027 (ENU).
-<https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/python_2api1_2math_table_control_8py-example.html>
+- **Source code:** `mathTableControl.py` is the verbatim official Autodesk Maya
+  Python API 1.0 example `python/api1/mathTableControl.py`, Maya 2027 (ENU) API
+  reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/python_2api1_2math_table_control_8py-example.html>.
+- **Verification:** the kNop/kMult/kAdd cell grids and the `[Row N]`/`[Col N]`
+  labels were hand-derived by tracing `cellString`/`labelString` against the row
+  and column indices, and the single-flag-per-call priority (mul>add>nop>rd) was
+  read from the `doEditFlags` if/elif chain. The plugin load, `createNode`, and
+  control evaluation require a running Maya to execute and are marked as such.

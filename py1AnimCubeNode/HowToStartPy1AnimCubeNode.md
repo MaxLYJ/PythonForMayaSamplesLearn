@@ -470,16 +470,18 @@ freeze the cube at a chosen frame.
 
 ## Source
 
-- **Bundled source:** `py1AnimCubeNode.py` — the `animCubeNode.py` example from
-  Autodesk's static 2011 API archive, the authoritative static copy of this
+- **Source code:** `py1AnimCubeNode.py` is the `animCubeNode.py` example from
+  Autodesk's static 2011 API archive — the authoritative static copy of this
   example (same `spAnimCube` node, same `MTypeId(0x8700B)`, same `time`→mesh
   contract as the 2027 docs page, which is JavaScript-rendered and not fetchable
-  as clean source). See `py1AnimCubeNode/README.md` for the full provenance note.
-- **Verified facts in this guide:** the cube-size pulse table and the
-  frame-10/20/30 degeneration were hand-derived from `cubeSize = 0.5*(frame%10)`
-  in pure Python; the face→axis mapping (and the README's face-3/4 label swap)
-  was derived by checking which coordinate is constant across each face's four
-  vertex indices in the source; the `if frame is 0` `SyntaxWarning` was confirmed
-  under Python 3. The Maya-specific wiring/registration steps were read from the
-  source and the top-of-file comment block; they require a running Maya to
-  execute and are marked as such.
+  as clean source). 2027 (ENU) API reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/python_2api1_2py1_anim_cube_node_8py-example.html>.
+  See `py1AnimCubeNode/README.md` for the full provenance note.
+- **Verification:** the cube-size pulse table and the frame-10/20/30 degeneration
+  were hand-derived from `cubeSize = 0.5*(frame%10)` in pure Python; the
+  face→axis mapping (and the README's face-3/4 label swap) was derived by
+  checking which coordinate is constant across each face's four vertex indices;
+  the `if frame is 0` `SyntaxWarning` was confirmed under Python 3. The
+  Maya-specific wiring/registration steps were read from the source and the
+  top-of-file comment block; they require a running Maya to execute and are
+  marked as such.

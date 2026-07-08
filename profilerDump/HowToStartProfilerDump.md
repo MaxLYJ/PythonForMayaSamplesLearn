@@ -494,3 +494,19 @@ Each idea lists the new function/class it would add to `profilerDump.py`.
    `begin/endTiming` event tree as the speedscope JSON format. You have now
    built the data-pipeline half of a serious performance tool, wrapped as a
    one-click shelf tool.
+
+---
+
+## Source
+
+- **Source code:** `profilerDump.py` is the verbatim official Autodesk Maya
+  Python API 1.0 example `python/api1/profilerDump.py`, and `test_example.py` is
+  its companion driver, Maya 2027 (ENU) API reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/python_2api1_2profiler_dump_8py-example.html>.
+- **Verification:** the inline-JSON / indexed-JSON / CSV output structures were
+  derived by tracing `profilerToJSON`/`profilerToCSV`'s `file.write` calls, and
+  the MProfiler duration/time units (microseconds) and the three source bugs
+  (the nonexistent `useIndex` param, the un-decoded `getCategoryName`, the
+  double `getDescription`) were found by reading the code and `GUIDE.md`.
+  Producing real capture data needs a running Maya with an active profiler
+  session and is marked as such throughout this guide.

@@ -363,3 +363,20 @@ from.
    segment connecting them (solving a 2×2 linear system from the dot products).
    It's a natural extension of `lineMath` and appears in IK / constraint solvers.
    *New code:* module-level `lineLineClosestPoint(lineA, lineB) -> (MPoint, MPoint, float)`.
+
+---
+
+## Source
+
+- **Source code:** `manipulatorMath.py` is the verbatim official Autodesk Maya
+  Python API 1.0 example `python/api1/manipulatorMath.py`, Maya 2027 (ENU) API
+  reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/python_2api1_2manipulator_math_8py-example.html>.
+- **Verification:** every printed number was re-derived by hand and by a
+  pure-Python reimplementation of the arithmetic (no Maya needed): this caught
+  the README's `lineMath.closestPoint` misprint (`1 2 0`, not `1 1 0`) and two
+  real bugs — `planeMath.intersect`'s wrong-sign denominator test and
+  `maxOfAbsThree`'s strict-`>` tie case. The module's only Maya dependency is the
+  `maya.OpenMaya` import (`MPoint`/`MVector`), so running it needs Maya's
+  interpreter (`mayapy` / Script Editor) even though it builds no scene; that
+  interpreter step is marked as such throughout.

@@ -500,3 +500,20 @@ instead — but expect it to fire far more often (every DG dirty/eval).
    start/stop/clear buttons, a `feed` QListWidget, and an installable Maya
    package (`userSetup.py` shelf button) — turning this Hello-World into a
    real debugging instrument for viewport-camera behavior.
+
+---
+
+## Source
+
+- **Source code:** `cameraMessageTest.py` (API 1.0) and `cameraMessageTest2.py`
+  (API 2.0) are the verbatim official Autodesk Maya Python API examples, Maya
+  2027 (ENU) API reference:
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/camera_message_cmd_2camera_message_test_8py-example.html>
+  and
+  <https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/camera_message_cmd_2camera_message_test2_8py-example.html>.
+- **Verification:** the 5-difference API-1.0→2.0 plumbing diff was confirmed by
+  diffing the two sibling files, and `MCameraMessage`'s begin/end "fire once per
+  interactive gesture" (not continuously, and interactive-only) semantics were
+  confirmed against the Autodesk C++ reference. Registering/firing the callbacks
+  and the ghost-callback-on-reload trap require a running Maya and are marked as
+  such throughout this guide.
