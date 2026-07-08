@@ -76,10 +76,11 @@ Set up like this:
    Substitute your clone location. Use a **raw string** (`r'...'`) and forward slashes on
    macOS/Linux.
 
-> ⚠️ I cannot run Maya in this environment, so the "expected result" descriptions below describe
-> what the code does according to the `cmds` API and are not screenshots I captured. The one demo
-> verified by direct execution is `commandLine/` (pure Python, no Maya). Everything here is a
-> faithful read of `gears1_2027.py` / `gears2_2027.py`.
+> ⚠️ **Cannot be verified without Maya running.** The "expected result" descriptions below describe
+> what the code does according to the `cmds` API — they are predictions read from the source, not
+> screenshots captured from a live Maya session. Everything here is a faithful read of
+> `gears1_2027.py` / `gears2_2027.py`; the one demo verified by direct execution is `commandLine/`
+> (pure Python, no Maya).
 
 ---
 

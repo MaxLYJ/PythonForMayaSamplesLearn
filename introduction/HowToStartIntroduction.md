@@ -45,9 +45,10 @@ You do **not** need to build anything by hand — both scripts create their own 
    can see the hierarchy the script builds.
 3. That's it — an empty scene is the test scene for this demo.
 
-> Mark clearly: I cannot run Maya in this environment, so the "expected result" descriptions below
-> describe what the code does according to the `cmds` API and are not screenshots I captured. The
-> `commandLine` demo, by contrast, was executed and verified directly (see its HowToStart).
+> ⚠️ **Cannot be verified without Maya running.** The "expected result" descriptions below describe
+> what the code does according to the `cmds` API — they are predictions read from the source, not
+> screenshots captured from a live Maya session. The `commandLine` demo, by contrast, was executed
+> and verified directly (see its HowToStart).
 
 ---
 

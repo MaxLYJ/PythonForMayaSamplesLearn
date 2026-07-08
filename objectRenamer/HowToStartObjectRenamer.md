@@ -105,10 +105,11 @@ Build the mixed-type scene (do this in a **Python** tab of the Script Editor):
    cmds.select('nurbsCircle*')
    ```
 
-> ⚠️ I cannot run Maya in this environment, so the "expected result" tables below describe what the
-> code does according to the `cmds` API and are not screenshots I captured. The behavior was verified
-> by reading `renamer1_2027.py`, `renamer2_2027.py`, and `renamer_numbered.py` line-by-line (syntax
-> confirmed with `py_compile`; `renamer2_2027` confirmed to have no `__main__` guard and no call site).
+> ⚠️ **Cannot be verified without Maya running.** The "expected result" tables below describe what
+> the code does according to the `cmds` API — they are predictions read from the source, not
+> screenshots captured from a live Maya session. The behavior was verified by reading
+> `renamer1_2027.py`, `renamer2_2027.py`, and `renamer_numbered.py` line-by-line (syntax confirmed
+> with `py_compile`; `renamer2_2027` confirmed to have no `__main__` guard and no call site).
 
 ---
 
