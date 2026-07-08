@@ -1,8 +1,8 @@
 # HowToStart — Utilities: Python Contexts (contextExamples & createdNodesContext)
 
 > **Position in the curriculum.** This is the second theme of the final `AdvancedPythonForMaya-master/Utilities/` project. The first theme (`HowToStartCallbackManager.md`) taught the *event/callback* lifecycle (`MSceneMessage` register→store→remove). This file teaches the *scope/cleanup* lifecycle — the Python **`with`-statement context manager** — in two escalating files:
-> * **`contextExamples`** — pure-Python theory of the `with` statement (no Maya at all): five escalating ways to guarantee cleanup.
-> * **`createdNodesContext`** — the same `__enter__`/`__exit__` pattern applied to Maya: a context that captures **every node created inside its block** via `MDGMessage` and hands you the validated list.
+> - **`contextExamples`** — pure-Python theory of the `with` statement (no Maya at all): five escalating ways to guarantee cleanup.
+> - **`createdNodesContext`** — the same `__enter__`/`__exit__` pattern applied to Maya: a context that captures **every node created inside its block** via `MDGMessage` and hands you the validated list.
 >
 > ⚠️ **Name check: these are *Python* context managers, not Maya `MPxContext` tools.** The word "context" is overloaded in Maya. A **Python context manager** (PEP 343, the `with obj as x:` statement) wraps a block in setup/teardown. A **Maya `MPxContext`** is a viewport *tool* (like the marquee-select or measure-distance tool) you author with `OpenMayaUI.MPxContext`. **This demo is only about the former.** Neither file imports `MPxContext` or registers a tool. The `Utilities/README.md` confirms: *"Contexts in Python let us wrap large blocks of code inside a temporary scope."*
 
@@ -21,9 +21,9 @@
 
 ## Prerequisites
 
-* Maya 2027 (or any Maya whose Python is 3.x) with the Script Editor or `mayapy`.
-* For `createdNodesContext`: an interactive Maya session (it calls `cmds.file`, `cmds.polyCube`, …). For `contextExamples`: **nothing Maya-specific** — it runs under plain `python3` and is fully exercised/verified in this guide without Maya.
-* Read `HowToStartCallbackManager.md` first if you want the callback-lifecycle background (`addNodeAddedCallback` follows the same *register→store ID→remove* rule taught there).
+- Maya 2027 (or any Maya whose Python is 3.x) with the Script Editor or `mayapy`.
+- For `createdNodesContext`: an interactive Maya session (it calls `cmds.file`, `cmds.polyCube`, …). For `contextExamples`: **nothing Maya-specific** — it runs under plain `python3` and is fully exercised/verified in this guide without Maya.
+- Read `HowToStartCallbackManager.md` first if you want the callback-lifecycle background (`addNodeAddedCallback` follows the same *register→store ID→remove* rule taught there).
 
 ---
 
@@ -138,9 +138,9 @@ Created the following nodes:
 	locatorShape
 ```
 
-* The cube (`pCube1` / `pCube1Shape` / `polyCube1`) is **gone** from the list — `isNull()` filtered those MObjects after `cmds.delete(cubes)`.
-* `polySphere1` appears as a bare name (it's a DG/construction-history node → `name()`); the transforms/shapes appear via `partialPathName()` (DAG nodes).
-* *Cannot verify the exact naming/order without Maya running; the set above is what the code's logic produces.*
+- The cube (`pCube1` / `pCube1Shape` / `polyCube1`) is **gone** from the list — `isNull()` filtered those MObjects after `cmds.delete(cubes)`.
+- `polySphere1` appears as a bare name (it's a DG/construction-history node → `name()`); the transforms/shapes appear via `partialPathName()` (DAG nodes).
+- *Cannot verify the exact naming/order without Maya running; the set above is what the code's logic produces.*
 
 ### Run C — drive `CreatedNodesContext` headlessly around your own code
 

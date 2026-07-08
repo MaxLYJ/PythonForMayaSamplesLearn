@@ -8,8 +8,8 @@ for the Maya Message system.
 
 The folder ships two sibling files that do the **same thing in two dialects**:
 
-* `cameraMessageTest/cameraMessageTest.py` — **API 1.0** (`import maya.OpenMaya`)
-* `cameraMessageTest2/cameraMessageTest2.py` — **API 2.0** (`import maya.api.OpenMaya`)
+- `cameraMessageTest/cameraMessageTest.py` — **API 1.0** (`import maya.OpenMaya`)
+- `cameraMessageTest2/cameraMessageTest2.py` — **API 2.0** (`import maya.api.OpenMaya`)
 
 Both are **definitions-only libraries** (verified by AST: no `__main__` guard, no
 top-level executable call — the block at the bottom is a plain string literal,
