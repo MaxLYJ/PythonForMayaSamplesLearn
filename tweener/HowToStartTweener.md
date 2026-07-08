@@ -20,7 +20,7 @@ The `reusableUI` file then **rewrites the same tweener** to demonstrate **class 
 (`TweenerWindow`, `GearWindow`) override only `buildUI()`. The `GearWindow` proves the reuse by
 driving the `gearCreator` demo's `Gear` class from a second window.
 
-**Files in this demo**
+## Files in this demo
 
 | File | Target | Role |
 |------|--------|------|
@@ -33,7 +33,7 @@ driving the `gearCreator` demo's `Gear` class from a second window.
 > paste into the Script Editor. The bare `.py` files are the heavily-commented Py2 teaching copies.
 > See the repo root `AGENTS.md` for the full convention.
 
-**Prerequisites**
+## Prerequisites
 
 - Maya 2027 (Python 3). If you are on Maya 2017/2018, use the Py2 `.py` files instead.
 - For `reusableUI` only: the `gearCreator/` folder must **also** be on `sys.path`, because
@@ -42,7 +42,7 @@ driving the `gearCreator` demo's `Gear` class from a second window.
 - The Animation control set (Time Slider, playback controls) should be visible so you can scrub
   frames and watch keys appear.
 
-**What the code actually does**
+## What the code actually does
 
 - `tween(percentage, obj=None, attrs=None, selection=True)` → for the chosen object, finds every
   keyable attribute, and for each one that is actually keyed, locates the **nearest previous key**

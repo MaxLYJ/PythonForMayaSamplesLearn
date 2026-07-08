@@ -15,7 +15,7 @@ generator node.
 
 ---
 
-## Files
+## Files in this demo
 
 | File | Role |
 |------|------|

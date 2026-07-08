@@ -8,7 +8,7 @@
 
 ---
 
-## Files
+## Files in this demo
 
 | File | Archetype | Maya needed? | Runs on Maya 2027? |
 |------|-----------|--------------|--------------------|

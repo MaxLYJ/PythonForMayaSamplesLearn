@@ -18,7 +18,7 @@ also contains two *Python context-manager* demos (`contextExamples`,
 
 ---
 
-## Files
+## Files in this demo
 
 | File | Role | Run it? |
 |---|---|---|
@@ -45,7 +45,7 @@ also contains two *Python context-manager* demos (`contextExamples`,
 > and `runTests` is byte-identical between the two files. All line references
 > below cite `callbackManager_2027.py`.
 
-### Prerequisites
+## Prerequisites
 
 - Maya 2027 (Python 3) — this demo imports `from maya.api import OpenMaya as om`
   (API 2.0), so it must run inside Maya's interpreter (Script Editor Python tab,

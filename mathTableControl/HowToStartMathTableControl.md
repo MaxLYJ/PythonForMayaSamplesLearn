@@ -13,7 +13,7 @@ command; it is never `import`-ed and called like a normal module.
 
 ---
 
-## Files
+## Files in this demo
 
 | File | Role |
 |------|------|

@@ -5,7 +5,7 @@ the two foundational skills of Maya Python: (1) running Python at all, and (2) d
 `maya.cmds`. Neither file defines functions or classes — each is a **top-to-bottom script** you
 execute in full (the classic "hello world" + "make a cube" pattern).
 
-**Files in this demo**
+## Files in this demo
 
 | File | Target | Role |
 |------|--------|------|
@@ -18,12 +18,12 @@ execute in full (the classic "hello world" + "make a cube" pattern).
 > paste into the Script Editor. The bare `.py` files are the heavily-commented Py2 teaching copies.
 > See the repo root `AGENTS.md` for the full convention.
 
-**Prerequisites**
+## Prerequisites
 
 - Maya 2027 (Python 3). If you are on Maya 2017/2018, use the Py2 `.py` files instead.
 - No plugins, no special units, no project setup needed.
 
-**What the code actually does**
+## What the code actually does
 
 - `helloWorld` → prints the string `"Hello, World!"`. Nothing else. It exists to confirm your
   Python environment works.

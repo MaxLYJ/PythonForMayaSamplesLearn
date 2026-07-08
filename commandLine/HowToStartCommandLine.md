@@ -9,7 +9,7 @@ terminal. It uses only the Python standard library (`argparse`, `re`, `os`, `shu
 Because it is plain Python, **every behavior in this document was actually executed and verified**
 on the host machine (not merely inferred). The verification log is summarized under each step.
 
-**Files in this demo**
+## Files in this demo
 
 | File | Target | Role |
 |------|--------|------|
@@ -19,14 +19,14 @@ on the host machine (not merely inferred). The verification log is summarized un
 > Note: unlike the Maya demos, here the `_2027` file makes **no logic changes** — `argparse`/`re`/
 > `os`/`shutil` code is identical across Py2 and Py3. Pick whichever Python you have.
 
-**Prerequisites**
+## Prerequisites
 
 - Any Python 3 interpreter (`python3 --version`). No Maya required.
 - A terminal / command prompt.
 - A throwaway folder of test files (built below). **Do not run this against a real project folder
   without `--duplicate`** — see the gotcha in Q2.
 
-**What the code actually does**
+## What the code actually does
 
 Two functions:
 

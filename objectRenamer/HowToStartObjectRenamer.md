@@ -20,7 +20,7 @@ It contains **two pedagogical stages**, plus a bonus variant:
 The payoff of the whole demo: the "script vs. function" lesson in miniature, plus a genuinely useful
 naming-convention tool you'll reach for on every rig.
 
-**Files in this demo**
+## Files in this demo
 
 | File | Target | Role |
 |------|--------|------|
@@ -34,13 +34,13 @@ naming-convention tool you'll reach for on every rig.
 > paste into the Script Editor. The bare `.py` files are the heavily-commented Py2 teaching copies.
 > See the repo root `AGENTS.md` for the full convention.
 
-**Prerequisites**
+## Prerequisites
 
 - Maya 2027 (Python 3). If you are on Maya 2017/2018, use the Py2 `.py` files instead.
 - No plugins, units, or project setup required. The only thing the scripts need is **DAG objects of
   the right node types** to rename.
 
-**What the code actually does**
+## What the code actually does
 
 - `renamer1` (flat script) → grabs the selection as full paths (`cmds.ls(selection=True, long=True)`),
   or — if nothing is selected — **every DAG node in the scene** (`cmds.ls(long=True, dag=True)`).

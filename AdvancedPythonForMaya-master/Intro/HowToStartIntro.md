@@ -25,7 +25,7 @@ an empty scene but the benchmark is **meaningless** without animation data; see
 
 ---
 
-## Files
+## Files in this demo
 
 | File | Purpose | Archetype |
 |------|---------|-----------|

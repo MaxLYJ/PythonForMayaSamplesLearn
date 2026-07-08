@@ -11,7 +11,7 @@ The payoff: procedural geometry. A configurable gear built from a `polyPipe` who
 face is extruded into a tooth. The same pattern (a primitive + a component selection + an extrude)
 extends to screws, springs, stairs, fences — anything repeating.
 
-**Files in this demo**
+## Files in this demo
 
 | File | Target | Role |
 |------|--------|------|
@@ -24,13 +24,13 @@ extends to screws, springs, stairs, fences — anything repeating.
 > paste into the Script Editor. The bare `.py` files are the heavily-commented Py2 teaching copies.
 > See the repo root `AGENTS.md` for the full convention.
 
-**Prerequisites**
+## Prerequisites
 
 - Maya 2027 (Python 3). If you are on Maya 2017/2018, use the Py2 `.py` files instead.
 - No plugins, no special units, no project setup. The gear's units are the scene's linear units
   (centimeters by default) — `length=0.3` means 0.3 cm of extrusion.
 
-**What the code actually does**
+## What the code actually does
 
 - `gears1.createGear(teeth, length)` → builds a polygon **pipe** (`cmds.polyPipe`) with
   `subdivisionsAxis = teeth * 2` spans, selects **every other side face** (the future teeth),
