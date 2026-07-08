@@ -118,7 +118,7 @@ There are two run modes depending on the file: **flat scripts** (`renamer1`, `re
 execute whole; the **function library** (`renamer2`) you import and call. Remember: for `renamer2`,
 **define ≠ call** — importing the module only loads the recipe.
 
-### A. `renamer1` — the flat script (type suffix)
+### Run A — `renamer1` (the flat script, type suffix)
 
 Set up the mixed-type scene from step 2 above, then **paste the entire contents of
 `renamer1_2027.py`** into a Python tab and run it (it has no `__main__` guard — it *is* the body).
@@ -139,7 +139,7 @@ Set up the mixed-type scene from step 2 above, then **paste the entire contents 
 > **Pitfall — run it twice and you get double suffixes.** `renamer1` has **no** idempotency check, so
 > running it again renames `cube_geo` → `cube_geo_geo`. `renamer2` fixes this; see Q8.
 
-### B. `renamer2` — the definitions-only function library
+### Run B — `renamer2` (the definitions-only function library)
 
 Put the demo folder on `sys.path` and import (once per Script Editor session):
 
@@ -192,7 +192,7 @@ renamer2.rename(selection=True)   # NO double-suffix: the endswith() guard skips
 - **Expected result:** the second call renames **nothing new** — objects whose name already ends in
   `_geo`/`_jnt`/`_grp` are skipped. Contrast with `renamer1` (Q8).
 
-### C. `renamer_numbered` — the flat-script numbered-prefix variant
+### Run C — `renamer_numbered` (the flat-script numbered-prefix variant)
 
 Build the batch-of-curves scene from step 3 above, then **paste the entire contents of
 `renamer_numbered.py`** into a Python tab and run it.
@@ -214,7 +214,7 @@ Build the batch-of-curves scene from step 3 above, then **paste the entire conte
 > lack. In those two, a NURBS curve falls through to `else`/`DEFAULT` and wrongly becomes `…_grp`. See
 > Q10 for how to give `renamer2` the same fix via its `SUFFIXES` dict.
 
-### D. One-shot paste (shortest path to seeing it work)
+### Run D — one-shot paste (shortest path to seeing it work)
 
 ```python
 import sys

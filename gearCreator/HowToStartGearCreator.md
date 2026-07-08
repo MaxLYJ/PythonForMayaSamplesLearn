@@ -88,7 +88,7 @@ Set up like this:
 Remember: **define ≠ call.** Importing the module only loads the recipe. You must invoke the
 function/method yourself.
 
-### A. `gears1` — the functional version
+### Run A — `gears1` (the functional version)
 
 ```python
 import sys
@@ -133,7 +133,7 @@ gears1.changeTeeth(constructor, extrude, teeth=12, length=0.2)
 > pipe) because the selected face normals point the other way. If your teeth look sunken, pass a
 > negative length: `gears1.createGear(length=-0.3)`.
 
-### B. `gears2` — the class version
+### Run B — `gears2` (the class version)
 
 ```python
 import sys
@@ -171,7 +171,7 @@ g2.create(teeth=8, length=0.2)
 - **Expected result:** a second gear (`pPipe2`). `g` and `g2` hold **different** node names, so
   editing one never touches the other — this is the main advantage of the class version.
 
-### C. One-shot paste (shortest path to a gear)
+### Run C — one-shot paste (shortest path to a gear)
 
 If you just want to see a gear:
 

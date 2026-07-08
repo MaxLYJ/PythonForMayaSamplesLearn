@@ -71,7 +71,7 @@ Create the Test Maya Scene" below).
 `profilerDump.py` is three independent export functions plus no-op plugin
 stubs. Map of the file:
 
-```
+```python
 __all__ = ['profilerToJSON', 'profilerToCSV', 'profilerFormatJSON']
 
 def profilerToJSON(fileName, useIndex, durationMin):   # the big one — writes JSON

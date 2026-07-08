@@ -70,7 +70,7 @@ You can run this demo **two ways**: as an imported library (call `rename()` dire
 > In all commands, replace `/abs/path/to` with the real path to your clone, e.g.
 > `/home/you/PythonForMayaSamplesLearn/commandLine`.
 
-### A. Run as a library — call `rename()` directly
+### Run A — library mode (call `rename()` directly)
 
 This is the "reused by other python libraries" mode the docstring mentions.
 
@@ -118,7 +118,7 @@ r.rename('a', 'b', outDir='/no/such/dir')   # → IOError
 ```
 **Verified result:** `IOError: /no/such/dir does not exist!` ✅ (Test 5)
 
-### B. Run as a command-line tool — `main()` via `__main__`
+### Run B — command-line mode (`main()` via `__main__`)
 
 From a terminal, in the folder that contains your test files:
 
@@ -145,7 +145,7 @@ Show the built-in help to see exactly this:
 python3 /abs/path/to/.../renamer_2027.py --help
 ```
 
-### C. Confirm importing does NOT auto-run anything
+### Run C — confirm importing does NOT auto-run anything
 
 Because of the `if __name__ == '__main__'` guard, `import renamer_2027` does **not** rename files.
 **Verified:** after a bare `import renamer_2027 as r`, the test folder was unchanged. ✅ Only

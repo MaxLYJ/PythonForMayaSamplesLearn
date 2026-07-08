@@ -135,7 +135,7 @@ Now `tween(percentage=50)` will insert keys on **all three** channels at once at
 
 ## How to Run the Functions
 
-### A. `tweener` — open the window (the animator's path)
+### Run A — `tweener` (open the window, the animator's path)
 
 ```python
 import sys
@@ -156,7 +156,7 @@ With Scene A built and `tweenCube` selected, **drag the slider to 50**:
 - Drag to 25 → cube moves to `translateX = 2.5`, key at 12 updates.
 - Drag to 100 → cube snaps to `translateX = 10` (the next key's value); drag to 0 → snaps to 0.
 
-### B. `tweener` — call `tween()` directly (no UI)
+### Run B — `tweener` (call `tween()` directly, no UI)
 
 Useful for scripting, batching, or testing without the window. Build Scene A first, then:
 
@@ -192,7 +192,7 @@ tweener.tween(percentage=50)
 # -> IndexError: list index out of range    (nothing selected, so cmds.ls(sl=1)[0] fails)
 ```
 
-### C. `reusableUI` — run the inheritance refactor
+### Run C — `reusableUI` (run the inheritance refactor)
 
 `reusableUI` imports **both** `tweener` and `gearCreator.gears2`, so **both** folders go on
 `sys.path`:
@@ -229,7 +229,7 @@ gwin.show()
 - Click **Reset** → the current gear is "released" (`self.gear = None`), so the next drag will
   **not** edit the old gear; the slider and label snap back to 10.
 
-### D. One-shot paste (shortest path to a working tweener)
+### Run D — one-shot paste (shortest path to a working tweener)
 
 ```python
 import sys
