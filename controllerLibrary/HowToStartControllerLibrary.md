@@ -92,7 +92,7 @@ on purpose — see the GC pitfall below.
 
 ---
 
-## 1. How to Create the Test Maya Scene
+## How to Create the Test Maya Scene
 
 The library writes to and reads from `DIRECTORY`, so the "scene" is really two
 things: a Maya scene containing a controller to save, and a clean library
@@ -133,7 +133,7 @@ if os.path.exists(d):
 
 ---
 
-## 2. How to Run the Functions
+## How to Run the Functions
 
 Put the demo folder on the path, import, and launch the UI:
 
@@ -211,7 +211,7 @@ the second *e* — source line 133). To see the consequence:
 
 ---
 
-## 3. Question and Answer
+## Question and Answer
 
 **Q1. Running the file does nothing — no window appears. Why?**
 Because the file is a *library module*: it defines `ControllerLibrary`,
@@ -284,7 +284,7 @@ example) without ever opening the window.
 
 ---
 
-## 4. Advanced Directions
+## Advanced Directions
 
 1. **Add the missing `delete()` method + `Delete` button.** The most-requested
    gap. New code: `ControllerLibrary.delete(self, name)` that pops the dict

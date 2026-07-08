@@ -112,7 +112,7 @@ kAdd  = lambda x, y: str(x + y)               # row + column
 
 ---
 
-## 1. How to Create the Test Maya Scene
+## How to Create the Test Maya Scene
 
 > ⚠️ **No Maya scene is needed.** This is a UI plugin: it creates no nodes,
 > reads no selection, and touches no DAG. The only "scene state" is an **empty,
@@ -137,7 +137,7 @@ That is the entire "scene". Everything below happens in the Script Editor.
 
 ---
 
-## 2. How to Run the Functions
+## How to Run the Functions
 
 This demo's "functions" are the plugin's lifecycle (load/unload) plus the
 registered command and its four edit flags. **None of this can be verified
@@ -243,7 +243,7 @@ can error). After unload, `cmds.spMathTableControl` no longer exists.
 
 ---
 
-## 3. Question and Answer
+## Question and Answer
 
 **Q1. There's no `if __name__ == "__main__"` and nothing looks "callable" — how
 do I even run this?**
@@ -326,7 +326,7 @@ behavior — a good first "safe edit" to build confidence.
 
 ---
 
-## 4. Advanced Directions
+## Advanced Directions
 
 Each idea lists the concrete functions/classes it would add.
 

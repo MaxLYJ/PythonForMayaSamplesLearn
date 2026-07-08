@@ -178,7 +178,7 @@ Autodesk for this example — see the Q&A on node IDs.
 
 ---
 
-## 1. How to Create the Test Maya Scene
+## How to Create the Test Maya Scene
 
 > ⚠️ **Cannot be fully verified without Maya running** — the wiring below is the
 > exact recipe from the comment block at the top of `py1AnimCubeNode.py`
@@ -235,7 +235,7 @@ animCubeNode1       (spAnimCube — the generator node; no transform)
 
 ---
 
-## 2. How to Run the Functions
+## How to Run the Functions
 
 A plug-in node is *exercised*, not *called*. The workflow is: **load → wire →
 scrub/play → unload.**
@@ -305,7 +305,7 @@ cmds.unloadPlugin('py1AnimCubeNode')   # pass the plugin (base) name, NOT the no
 
 ---
 
-## 3. Question and Answer
+## Question and Answer
 
 **Q1. Why is this `loadPlugin`-ed and not `import`-ed?**
 Because it is a **plug-in**, not a library module. Its entry point is
@@ -416,7 +416,7 @@ freeze the cube at a chosen frame.
 
 ---
 
-## 4. Advanced Directions
+## Advanced Directions
 
 1. **Smooth the pulse (sinusoid instead of sawtooth).** Replace
    `cubeSize = 0.5 * float(frame % 10)` with a sine, e.g.
