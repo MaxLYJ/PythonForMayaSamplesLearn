@@ -9,7 +9,7 @@ learner would ask after trying it, and concrete ways the demo could evolve.
 > 1. **How to Create the Test Maya Scene** — concrete, named objects/node types/selection.
 > 2. **How to Run the Functions** — exact import path + Script-Editor commands + expected viewport/outliner result.
 > 3. **Question and Answer** — 8–11 pairs grounded in *that demo's* actual code (not generic).
-> 4. **Advanced Directions** — 5–6 scoped extension ideas, each with the new functions/classes it would require.
+> 4. **Advanced Directions** — 6 scoped extension ideas (uniform across the set), each with the new functions/classes it would require.
 >
 > Where a demo needs no Maya scene (pure-Python or pure-math demos), the
 > "Create the Test Scene" section honestly says so instead of inventing steps.
