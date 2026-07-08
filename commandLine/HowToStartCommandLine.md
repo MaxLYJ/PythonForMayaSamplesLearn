@@ -1,4 +1,4 @@
-# How To Start: `commandLine`
+# HowToStart — commandLine
 
 This demo is **different from every other one in this repo**: it has **nothing to do with Maya**.
 It is a standalone, pure-Python **command-line batch file renamer** (`renamer.py`), built to show

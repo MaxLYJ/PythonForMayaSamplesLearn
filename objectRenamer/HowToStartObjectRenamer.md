@@ -1,4 +1,4 @@
-# How To Start: `objectRenamer`
+# HowToStart — objectRenamer
 
 This demo is the **Maya-scene counterpart to `commandLine/`**. Where `commandLine/renamer.py` renamed
 *files* on disk from the OS shell, `objectRenamer/` renames **DAG nodes inside a Maya scene** — adding

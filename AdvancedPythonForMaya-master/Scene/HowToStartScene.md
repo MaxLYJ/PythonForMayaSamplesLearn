@@ -1,4 +1,4 @@
-# HowToStartScene.md — Custom Scene Objects (`Scene/`)
+# HowToStart — Scene: Custom Scene Objects
 
 > **Position in the curriculum.** This is the Advanced section's **scene-object plugin** demo — the companion to `Nodes/`. Where `Nodes/` showed nodes that live in the dependency graph and *compute values or deform geometry*, this folder shows nodes that **live in the DAG (outliner) as things you can see, select, and transform**: a **custom Transform** and a **custom Locator shape drawn to the viewport**. These are the building blocks of a real rig — a named root node that carries rig metadata, and bespoke control shapes that don't exist in Maya's stock locator set.
 

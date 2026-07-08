@@ -1,4 +1,4 @@
-# How To Start: `gearCreator`
+# HowToStart — gearCreator
 
 This is the **first "definitions-only library" demo** in the curriculum. Unlike `introduction/`
 (flat scripts you execute top-to-bottom) or `commandLine/` (a script with a `__main__` guard you

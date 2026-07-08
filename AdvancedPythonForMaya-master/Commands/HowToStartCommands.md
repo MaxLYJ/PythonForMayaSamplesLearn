@@ -1,4 +1,4 @@
-# HowToStartCommands.md — Custom MPxCommand Plugins (`Commands/`)
+# HowToStart — Commands: Custom MPxCommand Plugins
 
 > **Position in the curriculum.** This is the Advanced section's first **`MPxCommand` plugin** demo. The Intro folder showed the OpenMaya API used *interactively* (a Script-Editor script); here the same API is packaged into a **plugin** that Maya loads with `loadPlugin`, after which the code becomes a real command callable from `cmds`, MEL, shelves, and hotkeys exactly like a built-in. The folder also ships a supporting **pure-Python decorators lesson** (`decorators.py`) that teaches the `@classmethod` / `@staticmethod` / `functools.wraps` concepts that `distributeCmd.py` then *uses*.
 

@@ -1,4 +1,4 @@
-# How To Start: `introduction`
+# HowToStart — introduction
 
 This is the very first demo in the curriculum. It has **two** tiny scripts that together teach
 the two foundational skills of Maya Python: (1) running Python at all, and (2) driving Maya with

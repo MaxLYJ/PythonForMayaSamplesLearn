@@ -1,4 +1,4 @@
-# HowToStart — `callbackManager` (Advanced Python for Maya · Utilities)
+# HowToStart — callbackManager (Advanced Python for Maya · Utilities)
 
 > **Where this sits in the curriculum.** This is the curriculum's first
 > *architectural* demo. It takes the raw register→store→remove callback lifecycle

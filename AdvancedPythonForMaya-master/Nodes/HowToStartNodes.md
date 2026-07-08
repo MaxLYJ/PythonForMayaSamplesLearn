@@ -1,4 +1,4 @@
-# HowToStartNodes.md — Custom Dependency Nodes (`Nodes/`)
+# HowToStart — Nodes: Custom Dependency Nodes
 
 > **Position in the curriculum.** This is the Advanced section's first **dependency-node plugin** demo. The `Commands/` folder showed the API packaged as a *command* — a one-shot action you invoke, then it is done. Here the same API is packaged as a **node** that *lives in the dependency graph*: it is instantiated with `createNode`, wired to other nodes with `connectAttr`, and **re-evaluates automatically whenever its inputs change**. Understanding `compute()` + `attributeAffects()` is the conceptual bridge between "a tool" and "a node that recomputes," and it is a prerequisite for the later deformer, transform, and locator demos.
 

@@ -1,4 +1,4 @@
-# How To Start: `tweener`
+# HowToStart — tweener
 
 This is the **first animation demo** and the **first demo with a Maya-built UI**. It teaches two
 new things at once: the **animation API** (`cmds.keyframe`, `cmds.setKeyframe`,
