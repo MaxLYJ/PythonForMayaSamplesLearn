@@ -2,6 +2,7 @@
 test
 ## Table of Contents
 
+* [Hands-On Learning Curriculum (all 19 demos)](CURRICULUM.md)
 * [Course Outline](#course-outline)
   * [Demos by Difficulty & Learning Order](#demos-by-difficulty--learning-order)
 * [Software Being Used](#tools-that-will-be-used)
@@ -20,6 +21,8 @@ The course is available here
 </a>
 
 This course will teach Python for Maya using an artist friendly approach, by breaking down concepts into small digestible pieces and giving projects with real world use.
+
+> 📚 **Learning this codebase hands-on?** Every demo ships a step-by-step `HowToStart<Demo>.md` guide — *how to build the test scene → how to run each function → Q&A → advanced extensions*. The complete **[CURRICULUM.md](CURRICULUM.md)** indexes all **19 guides** across 7 learning phases, including the eight API/plugin demos (`fileDialog`, `manipulatorMath`, `mathTableControl`, `py1AnimCubeNode`, `profilerDump`, `cameraMessageCmd`) and the entire `AdvancedPythonForMaya-master` section that the basics table below does not cover. If you want to *run* the demos rather than just read them, start there.
 
 ### About Me
 
