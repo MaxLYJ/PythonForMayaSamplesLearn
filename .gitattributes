@@ -1,0 +1,4 @@
+# Normalize line endings: store LF in the repo, let git handle checkout-time
+# conversion. Prevents the repo-wide CRLF/LF churn that VS Code on Windows
+# can otherwise introduce into `git status`. See GNU gitattributes docs.
+* text=auto
