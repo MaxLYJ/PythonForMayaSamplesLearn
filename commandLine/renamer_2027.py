@@ -114,6 +114,70 @@ def rename(inString, outString, duplicate=True, inDir=None, outDir=None, regex=F
             os.rename(src, dest)
 
 
+def find_files(directory, name=None, pattern=None, recursive=True):
+    """
+    Find files inside a directory, optionally recursing into subdirectories.
+
+    This is a GENUINELY RECURSIVE function: when recursive=True and it meets a
+    subdirectory, it calls ITSELF on that subdirectory and gathers the results.
+    Use it to answer questions like "where does 'controllerLibrary.ma' live
+    anywhere under my project root?" without knowing the exact subfolder.
+
+    Args:
+        directory: The folder to search in. Must exist.
+        name:      If given, only return files whose exact name matches this
+                   (case-sensitive). None means "any name".
+        pattern:   If given, only return files whose name contains this
+                   substring (case-sensitive). Combined with `name` if both set.
+        recursive: If True (default), recurse into subdirectories. If False,
+                   behave like os.listdir (immediate children only).
+
+    Returns:
+        A sorted list of full paths (strings) of files that match.
+        Directories themselves are never returned, only files.
+
+    Example:
+        # Find every .ma file anywhere under the project root
+        maya_files = find_files(r'D:\\my_project', pattern='.ma')
+
+        # Find a specific file you only half-remember the location of
+        paths = find_files(r'D:\\assets', name='body_ctrl.ma')
+
+        # Non-recursive (top-level only)
+        top = find_files(r'D:\\assets', pattern='.png', recursive=False)
+    """
+    # Fail fast if the user pointed us at something that isn't a folder.
+    if not os.path.isdir(directory):
+        raise IOError("%s is not a directory!" % directory)
+
+    matches = []
+
+    for entry in os.listdir(directory):
+        if entry.startswith('.'):
+            continue
+
+        full_path = os.path.join(directory, entry)
+
+        if os.path.isdir(full_path):
+            # RECURSIVE CASE: this child is a folder. Call ourselves on it and
+            # fold the results in. The recursion always terminates because a
+            # filesystem is a finite tree (os.listdir does not follow symlinks
+            # as directories by default, so there is no cycle).
+            if recursive:
+                matches.extend(
+                    find_files(full_path, name=name, pattern=pattern, recursive=True)
+                )
+        else:
+            # BASE CASE: this child is a file. Decide whether it matches.
+            if name is not None and entry != name:
+                continue
+            if pattern is not None and pattern not in entry:
+                continue
+            matches.append(full_path)
+
+    return sorted(matches)
+
+
 # We want to run the main() method when this python script is loaded
 # But we only want to do it when it's run directly and not when it's imported by something else
 # So we use this little check
